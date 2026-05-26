@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Cómo funciona — duarq.co</title>
+  <meta name="description" content="Así funciona el proceso de principio a fin — sin sorpresas, sin tecnicismos." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            deepblack: '#000000',
+            surface:   '#0A0A0A',
+            bordergray:'#1F2937',
+            accent:    '#3B82F6',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    .bg-grid {
+      background-image:
+        linear-gradient(to right,  rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    /* Hero muy sutil — página informacional */
+    .hero-glow-minimal {
+      background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(29,78,216,0.10) 0%, transparent 60%);
+    }
+
+    .glow-effect {
+      box-shadow: 0 0 40px -10px rgba(59,130,246,0.35);
+    }
+
+    .text-accent-readable { color: #60a5fa; }
+
+    .stat-accent {
+      background: linear-gradient(135deg, #60a5fa 0%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Nav */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -2px; left: 0;
+      width: 0; height: 1px; background: #60a5fa;
+      transition: width 0.2s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    /* Card hover */
+    .card-hover { transition: border-color 0.2s ease, transform 0.2s ease; }
+    .card-hover:hover { border-color: #3B82F6; transform: translateY(-2px); }
+
+    /* Safe areas */
+    .safe-top    { padding-top: max(env(safe-area-inset-top), 0px); }
+    .safe-bottom { padding-bottom: max(env(safe-area-inset-bottom), 0px); }
+
+    /* Mobile menu */
+    #mobile-menu {
+      transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+    #mobile-menu.menu-hidden {
+      opacity: 0; pointer-events: none; transform: translateY(-6px);
+    }
+    #mobile-menu.menu-open {
+      opacity: 1; pointer-events: auto; transform: translateY(0);
+    }
+
+    /* Fade up */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up  { animation: fadeUp 0.5s ease both; }
+    .delay-1  { animation-delay: 0.08s; }
+    .delay-2  { animation-delay: 0.18s; }
+    .delay-3  { animation-delay: 0.28s; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #000; }
+    ::-webkit-scrollbar-thumb { background: #1F2937; border-radius: 2px; }
+
+    /* Step connector vertical */
+    .step-container { position: relative; }
+    .step-connector {
+      position: absolute;
+      left: 19px;
+      top: 44px;
+      bottom: -32px;
+      width: 1px;
+      background: linear-gradient(to bottom, #1F2937 60%, transparent);
+    }
+    .step-number {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 1px solid #1F2937;
+      background: #0A0A0A;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #60a5fa;
+      position: relative;
+      z-index: 1;
+    }
+    .step-number-inactive {
+      color: #374151;
+      border-color: #111827;
+    }
+  </style>
+</head>
+
+<body class="bg-deepblack text-gray-300 font-sans antialiased selection:bg-accent selection:text-white">
+
+  <div id="nav-placeholder"></div>
+
+  <!-- ══════════════════════════════════════
+       HERO MÍNIMO
+  ══════════════════════════════════════ -->
+  <section class="relative pt-14 overflow-hidden">
+    <div class="absolute inset-0 bg-grid pointer-events-none"></div>
+    <div class="absolute inset-0 hero-glow-minimal pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 right-0 h-20 pointer-events-none"
+         style="background: linear-gradient(to bottom, transparent, #000000);"></div>
+
+    <div class="relative max-w-5xl mx-auto px-5 sm:px-8 pt-16 pb-12">
+      <div class="fade-up delay-1 inline-flex items-center gap-2 mb-6">
+        <span class="w-1.5 h-1.5 rounded-full bg-blue-400"
+              style="box-shadow: 0 0 8px 2px rgba(96,165,250,0.6);"></span>
+        <span class="text-xs text-accent-readable font-medium tracking-widest uppercase">Sin sorpresas</span>
+      </div>
+      <h1 class="fade-up delay-2 text-3xl sm:text-4xl font-semibold text-white leading-tight tracking-tight mb-3 max-w-xl">
+        Simple para ti<br />desde el día uno.
+      </h1>
+      <p class="fade-up delay-3 text-sm text-gray-400 max-w-lg leading-relaxed">
+        Así funciona el proceso de principio a fin —
+        sin tecnicismos, sin letra chica, sin sorpresas.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       4 PASOS — detalle expandido
+  ══════════════════════════════════════ -->
+  <section class="py-10 sm:py-14 border-t border-bordergray">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8">
+
+      <p class="text-xs text-gray-600 font-medium uppercase tracking-widest mb-10">El proceso</p>
+
+      <div class="space-y-8">
+
+        <!-- ── Paso 01 ── -->
+        <div class="step-container flex gap-5">
+          <div class="flex flex-col items-center">
+            <div class="step-number">01</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="pb-10 flex-1">
+            <div class="bg-surface border border-bordergray rounded-xl p-6 sm:p-8 card-hover">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-5">
+                <div>
+                  <h2 class="text-white text-lg font-semibold mb-1">Diagnóstico gratuito</h2>
+                  <p class="text-gray-500 text-xs">Tu punto de entrada — sin compromiso</p>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  <span class="text-xs text-gray-600">2 min (formulario) · hasta 20 min (llamada)</span>
+                </div>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-deepblack border border-bordergray rounded-lg p-4">
+                  <p class="text-xs text-gray-600 uppercase tracking-widest mb-2">Qué haces tú</p>
+                  <p class="text-gray-400 text-sm leading-relaxed">Llenas el formulario de diagnóstico en 2 minutos. Si prefieres hablar, agendas una llamada de 20 minutos.</p>
+                </div>
+                <div class="bg-deepblack border border-bordergray rounded-lg p-4">
+                  <p class="text-xs text-gray-600 uppercase tracking-widest mb-2">Qué hacemos nosotros</p>
+                  <p class="text-gray-400 text-sm leading-relaxed">Analizamos tu proceso, identificamos el punto de mayor impacto y te respondemos el mismo día.</p>
+                </div>
+                <div class="bg-deepblack border border-bordergray rounded-lg p-4">
+                  <p class="text-xs text-gray-600 uppercase tracking-widest mb-2">Qué obtienes</p>
+                  <p class="text-gray-400 text-sm leading-relaxed">Claridad sobre qué proceso atacar primero y si tiene solución viable — lo contrates o no.</p>
+                </div>
+              </div>
+              <div class="mt-4">
+                <a href="diagnostico.html"
+                   class="inline-flex items-center gap-2 text-sm text-accent-readable hover:text-blue-300 transition-colors">
+                  Ir al diagnóstico →
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Paso 02 ── -->
+        <div class="step-container flex gap-5">
+          <div class="flex flex-col items-center">
+            <div class="step-number">02</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="pb-10 flex-1">
+            <div class="bg-surface border border-bordergray rounded-xl p-6 sm:p-8 card-hover">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-5">
+                <div>
+                  <h2 class="text-white text-lg font-semibold mb-1">Propuesta clara</h2>
+                  <p class="text-gray-500 text-xs">Sin letra chica, sin ambigüedad</p>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  <span class="text-xs text-gray-600">2–3 días hábiles</span>
+                </div>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-deepblack border border-bordergray rounded-lg p-4">
+                  <p class="text-xs text-gray-600 uppercase tracking-widest mb-2">Qué haces tú</p>
+                  <p class="text-gray-400 text-sm leading-relaxed">Revisas la propuesta. Si tienes dudas, las resolvemos antes de arrancar.</p>
+                </div>
+                <div class="bg-deepblack border border-bordergray rounded-lg p-4">
+                  <p class="text-xs text-gray-600 uppercase tracking-widest mb-2">Qué hacemos nosotros</p>
+                  <p class="text-gray-400 text-sm leading-relaxed">Preparamos un documento con qué se va a hacer, cómo, cuánto cuesta y cuándo estará listo.</p>
+                </div>
+                <div class="bg-deepblack border border-bordergray rounded-lg p-4">
+                  <p class="text-xs text-gray-600 uppercase tracking-widest mb-2">Qué obtienes</p>
+                  <p class="text-gray-400 text-sm leading-relaxed">Una propuesta en lenguaje simple. Sin tecnicismos. Sin cobros sorpresa. Apruebas o no — sin presión.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Paso 03 ── -->
+        <div class="step-container flex gap-5">
+          <div class="flex flex-col items-center">
+            <div class="step-number">03</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="pb-10 flex-1">
+            <div class="bg-surface border border-bordergray rounded-xl p-6 sm:p-8 card-hover">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-5">
+                <div>
+                  <h2 class="text-white text-lg font-semibold mb-1">Lo armamos. Tú usas.</h2>
+                  <p class="text-gray-500 text-xs">Nos encargamos de todo el proceso técnico</p>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  <span class="text-xs text-gray-600">Según complejidad — acordado en propuesta</span>
+                </div>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
+                <div class="bg-deepblack border border-bordergray rounded-lg p-4">
+                  <p class="text-xs text-gray-600 uppercase tracking-widest mb-2">Qué haces tú</p>
+                  <p class="text-gray-400 text-sm leading-relaxed">Revisas avances cuando te los mostramos y das retroalimentación. Nada técnico de tu parte.</p>
+                </div>
+                <div class="bg-deepblack border border-bordergray rounded-lg p-4">
+                  <p class="text-xs text-gray-600 uppercase tracking-widest mb-2">Qué hacemos nosotros</p>
+                  <p class="text-gray-400 text-sm leading-relaxed">Construimos, probamos e implementamos la solución en tus sistemas actuales. Sin interrumpir tu operación.</p>
+                </div>
+                <div class="bg-deepblack border border-bordergray rounded-lg p-4">
+                  <p class="text-xs text-gray-600 uppercase tracking-widest mb-2">Qué obtienes</p>
+                  <p class="text-gray-400 text-sm leading-relaxed">Sistema funcionando desde el día de entrega + explicación breve de cómo usarlo. Sin manuales largos.</p>
+                </div>
+              </div>
+
+              <!-- Tabla de plazos -->
+              <div class="border border-bordergray rounded-lg overflow-hidden">
+                <div class="grid grid-cols-3 gap-px bg-bordergray">
+                  <div class="bg-deepblack px-4 py-3">
+                    <p class="text-xs text-gray-600 uppercase tracking-widest mb-1">Complejidad</p>
+                  </div>
+                  <div class="bg-deepblack px-4 py-3">
+                    <p class="text-xs text-gray-600 uppercase tracking-widest mb-1">Ejemplo</p>
+                  </div>
+                  <div class="bg-deepblack px-4 py-3">
+                    <p class="text-xs text-gray-600 uppercase tracking-widest mb-1">Plazo</p>
+                  </div>
+                </div>
+                <div class="grid grid-cols-3 gap-px bg-bordergray">
+                  <div class="bg-surface px-4 py-3">
+                    <p class="text-white text-xs font-medium">Simple</p>
+                  </div>
+                  <div class="bg-surface px-4 py-3">
+                    <p class="text-gray-500 text-xs">Formulario + documento automático</p>
+                  </div>
+                  <div class="bg-surface px-4 py-3">
+                    <p class="text-accent-readable text-xs font-medium">1–2 semanas</p>
+                  </div>
+                </div>
+                <div class="grid grid-cols-3 gap-px bg-bordergray">
+                  <div class="bg-surface px-4 py-3">
+                    <p class="text-white text-xs font-medium">Medio</p>
+                  </div>
+                  <div class="bg-surface px-4 py-3">
+                    <p class="text-gray-500 text-xs">Tracker + reportes + email automático</p>
+                  </div>
+                  <div class="bg-surface px-4 py-3">
+                    <p class="text-accent-readable text-xs font-medium">2–4 semanas</p>
+                  </div>
+                </div>
+                <div class="grid grid-cols-3 gap-px bg-bordergray">
+                  <div class="bg-surface px-4 py-3">
+                    <p class="text-white text-xs font-medium">Complejo</p>
+                  </div>
+                  <div class="bg-surface px-4 py-3">
+                    <p class="text-gray-500 text-xs">App web + integraciones múltiples</p>
+                  </div>
+                  <div class="bg-surface px-4 py-3">
+                    <p class="text-accent-readable text-xs font-medium">4–8 semanas</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Paso 04 ── -->
+        <div class="step-container flex gap-5">
+          <div class="flex flex-col items-center">
+            <div class="step-number step-number-inactive">04</div>
+          </div>
+          <div class="flex-1">
+            <div class="bg-surface border border-bordergray rounded-xl p-6 sm:p-8 card-hover">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-5">
+                <div>
+                  <div class="flex items-center gap-2 mb-1">
+                    <h2 class="text-white text-lg font-semibold">Soporte continuo</h2>
+                    <span class="text-xs border border-bordergray text-gray-500 px-2 py-0.5 rounded-full">Opcional</span>
+                  </div>
+                  <p class="text-gray-500 text-xs">Para automatizaciones que crecen con tu negocio</p>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                  </svg>
+                  <span class="text-xs text-gray-600">Mensualidad · ongoing</span>
+                </div>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-deepblack border border-bordergray rounded-lg p-4">
+                  <p class="text-xs text-gray-600 uppercase tracking-widest mb-2">Para quién es</p>
+                  <p class="text-gray-400 text-sm leading-relaxed">Clientes con automatizaciones activas que cambian, crecen o necesitan ajustes frecuentes.</p>
+                </div>
+                <div class="bg-deepblack border border-bordergray rounded-lg p-4">
+                  <p class="text-xs text-gray-600 uppercase tracking-widest mb-2">Qué incluye</p>
+                  <p class="text-gray-400 text-sm leading-relaxed">Mantenimiento, ajustes, expansiones y prioridad de atención. Un solo punto de contacto.</p>
+                </div>
+                <div class="bg-deepblack border border-bordergray rounded-lg p-4">
+                  <p class="text-xs text-gray-600 uppercase tracking-widest mb-2">Qué no incluye</p>
+                  <p class="text-gray-400 text-sm leading-relaxed">No es obligatorio. Si tu automatización funciona sola sin cambios, no necesitas la mensualidad.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       MODELOS DE SERVICIO
+  ══════════════════════════════════════ -->
+  <section class="py-10 sm:py-14 border-t border-bordergray">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8">
+
+      <p class="text-xs text-gray-600 font-medium uppercase tracking-widest mb-8">Modelos de servicio</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+        <!-- Proyecto fijo -->
+        <div class="bg-surface border border-bordergray rounded-xl p-6 sm:p-8 card-hover">
+          <div class="w-9 h-9 rounded-lg border border-bordergray flex items-center justify-center mb-5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+            </svg>
+          </div>
+          <h3 class="text-white text-base font-semibold mb-1">Proyecto fijo</h3>
+          <p class="text-gray-500 text-xs mb-5">Pago único · Alcance definido</p>
+          <ul class="space-y-2.5">
+            <li class="flex items-start gap-2.5">
+              <span class="w-1 h-1 rounded-full bg-blue-400 mt-2 shrink-0"></span>
+              <p class="text-gray-400 text-sm">Para automatizaciones puntuales con inicio y entrega claros</p>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="w-1 h-1 rounded-full bg-blue-400 mt-2 shrink-0"></span>
+              <p class="text-gray-400 text-sm">Precio acordado antes de arrancar — sin sorpresas</p>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="w-1 h-1 rounded-full bg-blue-400 mt-2 shrink-0"></span>
+              <p class="text-gray-400 text-sm">Incluye implementación y explicación de uso</p>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="w-1 h-1 rounded-full bg-blue-400 mt-2 shrink-0"></span>
+              <p class="text-gray-400 text-sm">Sin compromiso de continuidad — tú decides si seguimos</p>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Mensualidad -->
+        <div class="bg-surface border border-bordergray rounded-xl p-6 sm:p-8 card-hover">
+          <div class="w-9 h-9 rounded-lg border border-bordergray flex items-center justify-center mb-5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+          </div>
+          <h3 class="text-white text-base font-semibold mb-1">Mensualidad</h3>
+          <p class="text-gray-500 text-xs mb-5">Pago recurrente · Soporte activo</p>
+          <ul class="space-y-2.5">
+            <li class="flex items-start gap-2.5">
+              <span class="w-1 h-1 rounded-full bg-blue-400 mt-2 shrink-0"></span>
+              <p class="text-gray-400 text-sm">Para automatizaciones activas que evolucionan con tu negocio</p>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="w-1 h-1 rounded-full bg-blue-400 mt-2 shrink-0"></span>
+              <p class="text-gray-400 text-sm">Mantenimiento, ajustes y expansiones incluidas</p>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="w-1 h-1 rounded-full bg-blue-400 mt-2 shrink-0"></span>
+              <p class="text-gray-400 text-sm">Prioridad de atención y un solo punto de contacto</p>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="w-1 h-1 rounded-full bg-blue-400 mt-2 shrink-0"></span>
+              <p class="text-gray-400 text-sm">Cancelable en cualquier momento — sin contratos largos</p>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <p class="text-xs text-gray-600 text-center mt-5">
+        Los precios se definen en la propuesta según el alcance de cada proyecto. No hay tarifas públicas porque cada proceso es distinto.
+      </p>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       CTA FINAL
+  ══════════════════════════════════════ -->
+  <section class="py-14 sm:py-20 border-t border-bordergray">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8">
+      <div class="bg-surface border border-bordergray rounded-xl p-8 sm:p-12 text-center relative overflow-hidden">
+        <div class="absolute inset-0 pointer-events-none"
+             style="background: radial-gradient(ellipse 70% 70% at 50% 110%, rgba(59,130,246,0.08) 0%, transparent 70%);">
+        </div>
+        <p class="relative text-xs text-accent-readable font-medium tracking-widest uppercase mb-4">Siguiente paso</p>
+        <h2 class="relative text-2xl sm:text-3xl font-semibold text-white mb-3 leading-snug">
+          ¿Listo para empezar<br class="hidden sm:block" /> con el paso 01?
+        </h2>
+        <p class="relative text-gray-400 text-sm leading-relaxed max-w-md mx-auto mb-7">
+          Cuéntanos qué proceso te quita más tiempo. Terminas con claridad sobre qué mejorar — lo contrates o no.
+        </p>
+        <a href="diagnostico.html"
+           class="relative inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white text-black text-sm font-medium rounded glow-effect hover:bg-gray-100 transition-colors">
+          Diagnóstico gratuito
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="components/loader.js"></script>
+
+</body>
+</html>

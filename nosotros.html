@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Nosotros — duarq.co</title>
+  <meta name="description" content="El equipo detrás de duarq. Experiencia en operaciones globales, tecnología y negocios aplicada a PYMEs en Guadalajara." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            deepblack: '#000000',
+            surface:   '#0A0A0A',
+            bordergray:'#1F2937',
+            accent:    '#3B82F6',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    .bg-grid {
+      background-image:
+        linear-gradient(to right,  rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    .hero-glow-soft {
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(29,78,216,0.16) 0%, transparent 65%);
+    }
+
+    .glow-effect {
+      box-shadow: 0 0 40px -10px rgba(59,130,246,0.35);
+    }
+
+    .text-accent-readable { color: #60a5fa; }
+
+    .stat-accent {
+      background: linear-gradient(135deg, #60a5fa 0%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Nav */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -2px; left: 0;
+      width: 0; height: 1px; background: #60a5fa;
+      transition: width 0.2s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    /* Card hover */
+    .card-hover { transition: border-color 0.2s ease, transform 0.2s ease; }
+    .card-hover:hover { border-color: #3B82F6; transform: translateY(-2px); }
+
+    /* Safe areas */
+    .safe-top    { padding-top: max(env(safe-area-inset-top), 0px); }
+    .safe-bottom { padding-bottom: max(env(safe-area-inset-bottom), 0px); }
+
+    /* Mobile menu */
+    #mobile-menu {
+      transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+    #mobile-menu.menu-hidden {
+      opacity: 0; pointer-events: none; transform: translateY(-6px);
+    }
+    #mobile-menu.menu-open {
+      opacity: 1; pointer-events: auto; transform: translateY(0);
+    }
+
+    /* Fade up */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up  { animation: fadeUp 0.5s ease both; }
+    .delay-1  { animation-delay: 0.08s; }
+    .delay-2  { animation-delay: 0.18s; }
+    .delay-3  { animation-delay: 0.28s; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #000; }
+    ::-webkit-scrollbar-thumb { background: #1F2937; border-radius: 2px; }
+
+    /* Photo frame */
+    .photo-frame {
+      position: relative;
+    }
+    .photo-frame::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 10px;
+      box-shadow: inset 0 0 0 1px rgba(96,165,250,0.15);
+      pointer-events: none;
+    }
+
+    /* Credential item */
+    .cred-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px 0;
+      border-bottom: 1px solid #1F2937;
+    }
+    .cred-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .cred-item:first-child { padding-top: 0; }
+
+    /* Company badge */
+    .company-badge {
+      border: 1px solid #1F2937;
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-size: 0.75rem;
+      color: #6b7280;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .company-badge:hover { border-color: #374151; color: #9ca3af; }
+
+    /* Cert dot */
+    .cert-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #1F2937;
+      flex-shrink: 0;
+      margin-top: 7px;
+    }
+  </style>
+</head>
+
+<body class="bg-deepblack text-gray-300 font-sans antialiased selection:bg-accent selection:text-white">
+
+  <div id="nav-placeholder"></div>
+
+  <!-- ══════════════════════════════════════
+       HERO MÍNIMO
+  ══════════════════════════════════════ -->
+  <section class="relative pt-14 overflow-hidden">
+    <div class="absolute inset-0 bg-grid pointer-events-none"></div>
+    <div class="absolute inset-0 hero-glow-soft pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
+         style="background: linear-gradient(to bottom, transparent, #000000);"></div>
+
+    <div class="relative max-w-5xl mx-auto px-5 sm:px-8 pt-16 pb-12">
+      <div class="fade-up delay-1 inline-flex items-center gap-2 mb-6">
+        <span class="w-1.5 h-1.5 rounded-full bg-blue-400"
+              style="box-shadow: 0 0 8px 2px rgba(96,165,250,0.6);"></span>
+        <span class="text-xs text-accent-readable font-medium tracking-widest uppercase">Guadalajara, México</span>
+      </div>
+      <h1 class="fade-up delay-2 text-3xl sm:text-4xl font-semibold text-white leading-tight tracking-tight mb-3 max-w-xl">
+        El equipo detrás de duarq.
+      </h1>
+      <p class="fade-up delay-3 text-sm text-gray-400 max-w-lg leading-relaxed">
+        Combinamos experiencia en operaciones globales, tecnología y negocios
+        para resolver problemas reales en empresas como la tuya.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       SALVADOR — PERFIL PRINCIPAL
+  ══════════════════════════════════════ -->
+  <section class="py-10 sm:py-14 border-t border-bordergray">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8">
+
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14 items-start">
+
+        <!-- Foto -->
+        <div class="lg:col-span-2">
+          <div class="photo-frame rounded-xl overflow-hidden bg-surface border border-bordergray">
+            <img src="salvador.png"
+                 alt="Salvador Gómez Duarte — Fundador & Managing Consultant, duarq.co"
+                 class="w-full object-cover object-top"
+                 style="max-height: 420px;" />
+          </div>
+
+          <!-- Filosofía -->
+          <div class="mt-5 border-l-2 border-blue-400 pl-4">
+            <p class="text-gray-400 text-sm leading-relaxed italic">
+              "Mi trabajo termina cuando el tuyo fluye solo — entregado a tiempo, con calidad, y sin depender de mí."
+            </p>
+          </div>
+
+          <!-- Logro ancla -->
+          <div class="mt-5 bg-surface border border-bordergray rounded-lg p-5">
+            <p class="text-xs text-accent-readable font-medium tracking-widest uppercase mb-3">Logro destacado</p>
+            <p class="stat-accent text-3xl font-semibold mb-1">7,280 hrs</p>
+            <p class="text-gray-500 text-xs leading-relaxed">
+              de trabajo manual eliminadas al año mediante una automatización de reportes para una empresa de tecnología global.
+            </p>
+          </div>
+        </div>
+
+        <!-- Texto -->
+        <div class="lg:col-span-3 space-y-8">
+
+          <!-- Nombre y título -->
+          <div>
+            <h2 class="text-white text-2xl font-semibold mb-1">Salvador Gómez Duarte</h2>
+            <p class="text-accent-readable text-sm font-medium">Fundador & Managing Consultant</p>
+          </div>
+
+          <!-- Narrativa -->
+          <div>
+            <p class="text-gray-400 text-sm leading-relaxed mb-4">
+              Soy Ingeniero en Comunicaciones y Electrónica por la Universidad de Guadalajara, con maestría en Sistemas de Información por la University of Leeds (Reino Unido) y MBA por EGADE Business School del Tec de Monterrey — con experiencia académica también en Alemania y Estados Unidos.
+            </p>
+            <p class="text-gray-400 text-sm leading-relaxed mb-4">
+              Con más de una década de experiencia en empresas globales como Oracle y Signant Health, gestionando proyectos tecnológicos y coordinando equipos distribuidos en México, Chile, Sudáfrica, Rumania, Polonia, USA, UK e India. En paralelo, impartí el curso de Tecnologías Disruptivas Aplicadas a la Operación del Negocio en la concentración de Innovación y Transformación Digital del Tec de Monterrey.
+            </p>
+            <p class="text-gray-400 text-sm leading-relaxed">
+              Lo que más aprendí en ese recorrido es que los procesos manuales son el mayor freno oculto en cualquier organización — grande o pequeña. Duarq nació para resolver exactamente eso, con el mismo rigor que se aplica en empresas globales, adaptado a la escala y realidad de las PYMEs en Guadalajara.
+            </p>
+          </div>
+
+          <!-- Formación -->
+          <div>
+            <p class="text-xs text-gray-600 font-medium uppercase tracking-widest mb-4">Formación</p>
+            <div>
+
+              <div class="cred-item">
+                <div class="w-5 h-5 mt-0.5 shrink-0 flex items-center justify-center">
+                  <div class="w-1.5 h-1.5 rounded-full bg-blue-400"></div>
+                </div>
+                <div>
+                  <p class="text-white text-sm font-medium">MBA — EGADE Business School</p>
+                  <p class="text-gray-500 text-xs">Tecnológico de Monterrey · México</p>
+                </div>
+              </div>
+
+              <div class="cred-item">
+                <div class="w-5 h-5 mt-0.5 shrink-0 flex items-center justify-center">
+                  <div class="w-1.5 h-1.5 rounded-full bg-blue-400"></div>
+                </div>
+                <div>
+                  <p class="text-white text-sm font-medium">MSc Information Systems</p>
+                  <p class="text-gray-500 text-xs">University of Leeds · Reino Unido</p>
+                </div>
+              </div>
+
+              <div class="cred-item">
+                <div class="w-5 h-5 mt-0.5 shrink-0 flex items-center justify-center">
+                  <div class="w-1.5 h-1.5 rounded-full bg-blue-400"></div>
+                </div>
+                <div>
+                  <p class="text-white text-sm font-medium">Ingeniería en Comunicaciones y Electrónica</p>
+                  <p class="text-gray-500 text-xs">Universidad de Guadalajara · México</p>
+                </div>
+              </div>
+
+              <div class="cred-item">
+                <div class="w-5 h-5 mt-0.5 shrink-0 flex items-center justify-center">
+                  <div class="w-1.5 h-1.5 rounded-full bg-gray-600"></div>
+                </div>
+                <div>
+                  <p class="text-gray-400 text-sm">Estancias académicas en Babson College (EE.UU.) y Freie Universität Berlin (Alemania)</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Docencia -->
+          <div>
+            <p class="text-xs text-gray-600 font-medium uppercase tracking-widest mb-4">Docencia</p>
+            <div>
+              <div class="cred-item" style="border-bottom: none; padding-bottom: 0; padding-top: 0;">
+                <div class="w-5 h-5 mt-0.5 shrink-0 flex items-center justify-center">
+                  <div class="w-1.5 h-1.5 rounded-full bg-gray-600"></div>
+                </div>
+                <div>
+                  <p class="text-white text-sm font-medium">Tecnologías Disruptivas Aplicadas a la Operación del Negocio</p>
+                  <p class="text-gray-500 text-xs mt-0.5">Concentración: Innovación y Transformación Digital</p>
+                  <p class="text-gray-600 text-xs mt-0.5">Tecnológico de Monterrey · 2023–2025</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Certificaciones -->
+          <div>
+            <p class="text-xs text-gray-600 font-medium uppercase tracking-widest mb-3">Certificaciones</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs border border-bordergray text-gray-500 px-3 py-1.5 rounded-full">Anthropic</span>
+              <span class="text-xs border border-bordergray text-gray-500 px-3 py-1.5 rounded-full">Make</span>
+              <span class="text-xs border border-bordergray text-gray-500 px-3 py-1.5 rounded-full">IBM</span>
+              <span class="text-xs border border-bordergray text-gray-500 px-3 py-1.5 rounded-full">Oracle</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       EXPERIENCIA — empresas
+  ══════════════════════════════════════ -->
+  <section class="py-10 sm:py-14 border-t border-bordergray">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8">
+
+      <p class="text-xs text-gray-600 font-medium uppercase tracking-widest mb-8">Experiencia profesional</p>
+
+      <!-- Grid de empresas — 4+4, jerarquía tipográfica -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-px bg-bordergray rounded-xl overflow-hidden mb-8">
+
+        <!-- Fila 1: primario -->
+        <div class="bg-surface px-5 py-5">
+          <p class="text-white text-sm font-semibold">Oracle</p>
+        </div>
+        <div class="bg-surface px-5 py-5">
+          <p class="text-white text-sm font-semibold">Signant Health</p>
+        </div>
+        <div class="bg-surface px-5 py-5">
+          <p class="text-white text-sm font-semibold">Tec de Monterrey</p>
+        </div>
+        <div class="bg-surface px-5 py-5">
+          <p class="text-white text-sm font-semibold">Benchmark Electronics</p>
+        </div>
+
+        <!-- Fila 2: secundario -->
+        <div class="bg-surface px-5 py-5">
+          <p class="text-gray-500 text-sm">Amco</p>
+        </div>
+        <div class="bg-surface px-5 py-5">
+          <p class="text-gray-500 text-sm">HCL Technologies</p>
+        </div>
+        <div class="bg-surface px-5 py-5">
+          <p class="text-gray-500 text-sm">Tata Consultancy Services</p>
+        </div>
+        <div class="bg-surface px-5 py-5">
+          <p class="text-gray-500 text-sm">CFE</p>
+        </div>
+
+      </div>
+
+      <!-- Logro en contexto corporativo -->
+      <div class="bg-surface border border-bordergray rounded-xl p-6 sm:p-8 grid grid-cols-1 sm:grid-cols-3 gap-6 items-center">
+        <div class="sm:col-span-2">
+          <p class="text-xs text-accent-readable font-medium tracking-widest uppercase mb-3">De la experiencia corporativa a las PYMEs</p>
+          <p class="text-gray-400 text-sm leading-relaxed">
+            Lo que aprendimos gestionando proyectos en empresas multinacionales — estandarización, automatización, entrega con calidad — es exactamente lo que las PYMEs necesitan y rara vez tienen acceso. Esa es la brecha que cierra duarq.
+          </p>
+        </div>
+        <div class="border-l border-bordergray pl-6 sm:border-l sm:pl-6">
+          <p class="stat-accent text-4xl font-semibold mb-1">10+</p>
+          <p class="text-gray-500 text-sm">años de experiencia en proyectos tecnológicos globales</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       EQUIPO — slot futuro
+  ══════════════════════════════════════ -->
+  <section class="py-10 sm:py-14 border-t border-bordergray">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8">
+
+      <p class="text-xs text-gray-600 font-medium uppercase tracking-widest mb-6">Cómo trabajamos</p>
+
+      <div class="bg-surface border border-bordergray rounded-xl p-6 sm:p-8 flex flex-col sm:flex-row items-start gap-6">
+        <div class="w-10 h-10 rounded-lg border border-bordergray flex items-center justify-center shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-white text-sm font-medium mb-2">Especialistas por proyecto</h3>
+          <p class="text-gray-500 text-sm leading-relaxed max-w-xl">
+            Según las necesidades de cada proyecto, colaboramos con especialistas técnicos seleccionados por su experiencia en el área específica. Tú siempre tienes un solo punto de contacto — nosotros coordinamos el resto.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       CTA FINAL
+  ══════════════════════════════════════ -->
+  <section class="py-14 sm:py-20 border-t border-bordergray">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8">
+      <div class="bg-surface border border-bordergray rounded-xl p-8 sm:p-12 text-center relative overflow-hidden">
+        <div class="absolute inset-0 pointer-events-none"
+             style="background: radial-gradient(ellipse 70% 70% at 50% 110%, rgba(59,130,246,0.08) 0%, transparent 70%);">
+        </div>
+        <p class="relative text-xs text-accent-readable font-medium tracking-widest uppercase mb-4">Siguiente paso</p>
+        <h2 class="relative text-2xl sm:text-3xl font-semibold text-white mb-3 leading-snug">
+          ¿Platicamos sobre tu negocio?
+        </h2>
+        <p class="relative text-gray-400 text-sm leading-relaxed max-w-md mx-auto mb-7">
+          Cuéntanos qué proceso te quita más tiempo. Terminas con claridad sobre qué mejorar — lo contrates o no.
+        </p>
+        <a href="diagnostico.html"
+           class="relative inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white text-black text-sm font-medium rounded glow-effect hover:bg-gray-100 transition-colors">
+          Diagnóstico gratuito
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="components/loader.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Casos — duarq.co</title>
+  <meta name="description" content="Resultados reales en negocios reales. Procesos manuales convertidos en sistemas automáticos." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            deepblack: '#000000',
+            surface:   '#0A0A0A',
+            bordergray:'#1F2937',
+            accent:    '#3B82F6',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    .bg-grid {
+      background-image:
+        linear-gradient(to right,  rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    .hero-glow-soft {
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(29,78,216,0.16) 0%, transparent 65%);
+    }
+
+    .glow-effect {
+      box-shadow: 0 0 40px -10px rgba(59,130,246,0.35);
+    }
+
+    .text-accent-readable { color: #60a5fa; }
+
+    .stat-accent {
+      background: linear-gradient(135deg, #60a5fa 0%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Nav */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -2px; left: 0;
+      width: 0; height: 1px; background: #60a5fa;
+      transition: width 0.2s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    /* Card hover */
+    .card-hover { transition: border-color 0.2s ease, transform 0.2s ease; }
+    .card-hover:hover { border-color: #3B82F6; transform: translateY(-2px); }
+
+    /* Safe areas */
+    .safe-top    { padding-top: max(env(safe-area-inset-top), 0px); }
+    .safe-bottom { padding-bottom: max(env(safe-area-inset-bottom), 0px); }
+
+    /* Mobile menu */
+    #mobile-menu {
+      transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+    #mobile-menu.menu-hidden {
+      opacity: 0; pointer-events: none; transform: translateY(-6px);
+    }
+    #mobile-menu.menu-open {
+      opacity: 1; pointer-events: auto; transform: translateY(0);
+    }
+
+    /* Fade up */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up  { animation: fadeUp 0.5s ease both; }
+    .delay-1  { animation-delay: 0.08s; }
+    .delay-2  { animation-delay: 0.18s; }
+    .delay-3  { animation-delay: 0.28s; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #000; }
+    ::-webkit-scrollbar-thumb { background: #1F2937; border-radius: 2px; }
+
+    /* Placeholder card pattern */
+    .placeholder-pattern {
+      background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 4px,
+        rgba(255,255,255,0.015) 4px,
+        rgba(255,255,255,0.015) 8px
+      );
+    }
+
+    /* Flow step connector */
+    .flow-step { position: relative; padding-left: 28px; }
+    .flow-step::before {
+      content: '';
+      position: absolute;
+      left: 7px; top: 20px;
+      width: 1px;
+      bottom: -16px;
+      background: linear-gradient(to bottom, #1F2937 70%, transparent);
+    }
+    .flow-step:last-child::before { display: none; }
+    .flow-dot {
+      position: absolute;
+      left: 0; top: 4px;
+      width: 15px; height: 15px;
+      border-radius: 50%;
+      border: 1px solid #1F2937;
+      background: #0A0A0A;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .flow-dot-inner {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #60a5fa;
+    }
+  </style>
+</head>
+
+<body class="bg-deepblack text-gray-300 font-sans antialiased selection:bg-accent selection:text-white">
+
+  <div id="nav-placeholder"></div>
+
+  <!-- ══════════════════════════════════════
+       HERO MÍNIMO
+  ══════════════════════════════════════ -->
+  <section class="relative pt-14 overflow-hidden">
+    <div class="absolute inset-0 bg-grid pointer-events-none"></div>
+    <div class="absolute inset-0 hero-glow-soft pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
+         style="background: linear-gradient(to bottom, transparent, #000000);"></div>
+
+    <div class="relative max-w-5xl mx-auto px-5 sm:px-8 pt-16 pb-12">
+      <div class="fade-up delay-1 inline-flex items-center gap-2 mb-6">
+        <span class="w-1.5 h-1.5 rounded-full bg-blue-400"
+              style="box-shadow: 0 0 8px 2px rgba(96,165,250,0.6);"></span>
+        <span class="text-xs text-accent-readable font-medium tracking-widest uppercase">Resultados verificables</span>
+      </div>
+      <h1 class="fade-up delay-2 text-3xl sm:text-4xl font-semibold text-white leading-tight tracking-tight mb-3 max-w-xl">
+        Resultados reales<br />en negocios reales.
+      </h1>
+      <p class="fade-up delay-3 text-sm text-gray-400 max-w-lg leading-relaxed">
+        Cada caso empieza con un proceso manual que le costaba tiempo al equipo.
+        Aquí está lo que cambiamos — y lo que mejoró.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       CASOS
+  ══════════════════════════════════════ -->
+  <section class="py-10 sm:py-14 border-t border-bordergray">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8 space-y-8">
+
+      <!-- ────────────────────────────────────
+           CASO 1 — Ocicat Clínica Felina
+      ──────────────────────────────────── -->
+      <article class="bg-surface border border-bordergray rounded-xl overflow-hidden card-hover">
+
+        <!-- Header -->
+        <div class="px-7 pt-7 pb-5 border-b border-bordergray flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <p class="text-xs text-accent-readable font-medium tracking-widest uppercase mb-1.5">Caso 01</p>
+            <h2 class="text-white text-lg font-semibold">Ocicat Clínica Felina</h2>
+            <p class="text-gray-500 text-xs mt-1">Salud veterinaria · Guadalajara, México</p>
+          </div>
+          <div class="flex flex-col items-start sm:items-end gap-1.5">
+            <p class="text-xs text-gray-600 uppercase tracking-widest">Herramientas</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs border border-bordergray text-gray-500 px-3 py-1 rounded-full">Google Forms</span>
+              <span class="text-xs border border-bordergray text-gray-500 px-3 py-1 rounded-full">Apps Script</span>
+              <span class="text-xs border border-bordergray text-gray-500 px-3 py-1 rounded-full">Google Docs</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-7 grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+          <!-- Izquierda: problema + solución -->
+          <div class="space-y-7">
+
+            <!-- Problema -->
+            <div>
+              <p class="text-xs text-gray-600 font-medium uppercase tracking-widest mb-4">El problema</p>
+              <p class="text-gray-400 text-sm leading-relaxed">
+                La clínica enviaba cuestionarios por correo antes de cada consulta — largos, sin diseño, difíciles de llenar desde el celular. Los tutores los respondían mal, incompleto o simplemente no los respondían. La doctora llegaba a cada cita sin información del paciente y tenía que empezar desde cero.
+              </p>
+            </div>
+
+            <!-- Flujo técnico -->
+            <div>
+              <p class="text-xs text-gray-600 font-medium uppercase tracking-widest mb-4">La solución</p>
+              <div class="space-y-4">
+                <div class="flow-step">
+                  <div class="flow-dot"><div class="flow-dot-inner"></div></div>
+                  <p class="text-sm text-gray-400 leading-relaxed"><span class="text-white font-medium">Formulario digital</span> — el tutor del paciente lo llena desde su celular en 2 minutos, con diseño claro y preguntas en orden lógico.</p>
+                </div>
+                <div class="flow-step">
+                  <div class="flow-dot"><div class="flow-dot-inner"></div></div>
+                  <p class="text-sm text-gray-400 leading-relaxed"><span class="text-white font-medium">Generación automática</span> — al enviar, Apps Script crea el expediente clínico completo en Google Docs con los datos fusionados en la plantilla oficial.</p>
+                </div>
+                <div class="flow-step">
+                  <div class="flow-dot"><div class="flow-dot-inner"></div></div>
+                  <p class="text-sm text-gray-400 leading-relaxed"><span class="text-white font-medium">Guía automática al tutor</span> — el sistema envía por correo una guía de cuidados personalizada. Sin pasos extra para el equipo de la clínica.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Derecha: stats -->
+          <div class="flex flex-col gap-4">
+            <p class="text-xs text-gray-600 font-medium uppercase tracking-widest">El resultado</p>
+
+            <!-- Antes vs después -->
+            <div class="bg-deepblack border border-bordergray rounded-lg p-5 grid grid-cols-2 gap-4">
+              <div class="border-r border-bordergray pr-4">
+                <p class="text-xs text-gray-600 uppercase tracking-widest mb-2">Antes</p>
+                <p class="text-2xl font-semibold text-gray-500 mb-1">30 min</p>
+                <p class="text-gray-600 text-xs leading-relaxed">por expediente, llenado desde cero por la clínica</p>
+              </div>
+              <div class="pl-2">
+                <p class="text-xs text-accent-readable uppercase tracking-widest mb-2">Ahora</p>
+                <p class="stat-accent text-2xl font-semibold mb-1">2 min</p>
+                <p class="text-gray-500 text-xs leading-relaxed">el tutor llena el formulario, el expediente se genera solo</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-deepblack border border-bordergray rounded-lg p-5">
+                <p class="stat-accent text-3xl font-semibold mb-1">582 hrs</p>
+                <p class="text-gray-500 text-xs leading-relaxed">de trabajo manual eliminadas al año (4 consultas × 6 días × 52 semanas)</p>
+              </div>
+              <div class="bg-deepblack border border-bordergray rounded-lg p-5">
+                <p class="stat-accent text-3xl font-semibold mb-1">+1,164</p>
+                <p class="text-gray-500 text-xs leading-relaxed">consultas adicionales posibles con el tiempo recuperado</p>
+              </div>
+            </div>
+
+            <div class="bg-deepblack border border-bordergray rounded-lg p-5">
+              <p class="stat-accent text-3xl font-semibold mb-1">2</p>
+              <p class="text-gray-500 text-sm leading-relaxed">Documentos generados automáticamente por consulta — expediente clínico y guía para el tutor.</p>
+            </div>
+
+            <!-- Quote -->
+            <div class="border-l-2 border-blue-400 pl-4">
+              <p class="text-gray-400 text-sm leading-relaxed italic">
+                "El médico llega a cada consulta con el expediente listo. Ya no empezamos desde cero."
+              </p>
+              <p class="text-gray-600 text-xs mt-2">— Equipo Ocicat Clínica Felina</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ────────────────────────────────────
+           CASO 2 — Empresa tecnología global
+      ──────────────────────────────────── -->
+      <article class="bg-surface border border-bordergray rounded-xl overflow-hidden card-hover">
+
+        <!-- Header -->
+        <div class="px-7 pt-7 pb-5 border-b border-bordergray flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <p class="text-xs text-accent-readable font-medium tracking-widest uppercase mb-1.5">Caso 02</p>
+            <h2 class="text-white text-lg font-semibold">Empresa de tecnología · Operaciones globales</h2>
+            <p class="text-gray-500 text-xs mt-1">Gestión de proyectos · Confidencial</p>
+          </div>
+          <div class="flex flex-col items-start sm:items-end gap-1.5">
+            <p class="text-xs text-gray-600 uppercase tracking-widest">Herramientas</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs border border-bordergray text-gray-500 px-3 py-1 rounded-full">VBA</span>
+              <span class="text-xs border border-bordergray text-gray-500 px-3 py-1 rounded-full">Microsoft Office</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-7 grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+          <!-- Izquierda -->
+          <div class="space-y-7">
+
+            <div>
+              <p class="text-xs text-gray-600 font-medium uppercase tracking-widest mb-4">El problema</p>
+              <p class="text-gray-400 text-sm leading-relaxed">
+                Cada Project Manager invertía 2 horas semanales generando reportes de estatus para clientes. La información vivía dispersa — bloc de notas, Word, Excel, correos — sin ningún estándar. El proceso era copiar y pegar manualmente en una plantilla, cambiar fecha, renombrar el archivo, adjuntarlo a un correo y redactar el mensaje desde cero. Cada semana. Sin excepción.
+              </p>
+            </div>
+
+            <div>
+              <p class="text-xs text-gray-600 font-medium uppercase tracking-widest mb-4">La solución</p>
+              <div class="space-y-4">
+                <div class="flow-step">
+                  <div class="flow-dot"><div class="flow-dot-inner"></div></div>
+                  <p class="text-sm text-gray-400 leading-relaxed"><span class="text-white font-medium">Tracker centralizado</span> — un sistema donde cada PM registra el estatus actualizado de sus proyectos en un solo lugar, con estructura estandarizada.</p>
+                </div>
+                <div class="flow-step">
+                  <div class="flow-dot"><div class="flow-dot-inner"></div></div>
+                  <p class="text-sm text-gray-400 leading-relaxed"><span class="text-white font-medium">Generación con un clic</span> — al final de la semana, un botón genera el reporte formateado en Word y PDF con toda la información, fecha y nombre de archivo correctos.</p>
+                </div>
+                <div class="flow-step">
+                  <div class="flow-dot"><div class="flow-dot-inner"></div></div>
+                  <p class="text-sm text-gray-400 leading-relaxed"><span class="text-white font-medium">Email listo para enviar</span> — el sistema redacta el correo, agrega destinatario, asunto, cuerpo del mensaje con firma del PM y adjunta el PDF automáticamente.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Derecha: stats -->
+          <div class="flex flex-col gap-4">
+            <p class="text-xs text-gray-600 font-medium uppercase tracking-widest">El resultado</p>
+
+            <div class="bg-deepblack border border-bordergray rounded-lg p-5">
+              <p class="stat-accent text-4xl font-semibold mb-1">7,280 hrs</p>
+              <p class="text-gray-500 text-sm leading-relaxed">Reducción de trabajo manual en el área de Project Management — al año.</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-deepblack border border-bordergray rounded-lg p-5">
+                <p class="stat-accent text-3xl font-semibold mb-1">2 min</p>
+                <p class="text-gray-500 text-xs leading-relaxed">Lo que tarda hoy el proceso que antes tomaba 2 horas</p>
+              </div>
+              <div class="bg-deepblack border border-bordergray rounded-lg p-5">
+                <p class="stat-accent text-2xl font-semibold mb-1">~$200K</p>
+                <p class="text-gray-500 text-xs leading-relaxed">USD estimados en reducción de costos operativos anuales</p>
+              </div>
+            </div>
+
+            <!-- Nota metodología -->
+            <div class="bg-deepblack border border-bordergray rounded-lg p-4">
+              <p class="text-gray-600 text-xs leading-relaxed">
+                <span class="text-gray-500 font-medium">Metodología:</span> estimación basada en horas ahorradas por PM × tarifa promedio ponderada del equipo distribuido (México, Chile, USA, UK, India). Los resultados específicos varían según el tamaño y estructura del equipo.
+              </p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ────────────────────────────────────
+           PLACEHOLDERS
+      ──────────────────────────────────── -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+        <!-- Placeholder 1 — Servicios profesionales -->
+        <div class="bg-surface border border-bordergray rounded-xl p-7 placeholder-pattern relative overflow-hidden">
+          <div class="relative">
+            <div class="flex items-center gap-2 mb-5">
+              <div class="w-5 h-5 rounded border border-bordergray flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+              </div>
+              <span class="text-xs text-gray-600 font-medium tracking-widest uppercase">Próximamente</span>
+            </div>
+            <p class="text-xs text-accent-readable font-medium tracking-widest uppercase mb-2">Caso 03</p>
+            <h3 class="text-gray-400 text-base font-medium mb-1">Servicios profesionales</h3>
+            <p class="text-gray-600 text-xs">Despacho contable o legal · Guadalajara</p>
+            <p class="text-gray-600 text-xs mt-4 leading-relaxed">
+              Automatización de procesos administrativos repetitivos: reportes, seguimiento de clientes y generación de documentos.
+            </p>
+          </div>
+        </div>
+
+        <!-- Placeholder 2 — Comercio local -->
+        <div class="bg-surface border border-bordergray rounded-xl p-7 placeholder-pattern relative overflow-hidden">
+          <div class="relative">
+            <div class="flex items-center gap-2 mb-5">
+              <div class="w-5 h-5 rounded border border-bordergray flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+              </div>
+              <span class="text-xs text-gray-600 font-medium tracking-widest uppercase">Próximamente</span>
+            </div>
+            <p class="text-xs text-accent-readable font-medium tracking-widest uppercase mb-2">Caso 04</p>
+            <h3 class="text-gray-400 text-base font-medium mb-1">Comercio local</h3>
+            <p class="text-gray-600 text-xs">Distribuidora o tienda con inventario · Guadalajara</p>
+            <p class="text-gray-600 text-xs mt-4 leading-relaxed">
+              Control de inventario, pedidos y seguimiento de clientes sin hojas de cálculo desactualizadas ni procesos manuales.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       CTA FINAL
+  ══════════════════════════════════════ -->
+  <section class="py-14 sm:py-20 border-t border-bordergray mt-4">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8">
+      <div class="bg-surface border border-bordergray rounded-xl p-8 sm:p-12 text-center relative overflow-hidden">
+        <div class="absolute inset-0 pointer-events-none"
+             style="background: radial-gradient(ellipse 70% 70% at 50% 110%, rgba(59,130,246,0.08) 0%, transparent 70%);">
+        </div>
+        <p class="relative text-xs text-accent-readable font-medium tracking-widest uppercase mb-4">Siguiente paso</p>
+        <h2 class="relative text-2xl sm:text-3xl font-semibold text-white mb-3 leading-snug">
+          ¿Tu negocio tiene un proceso<br class="hidden sm:block" /> que merece estar aquí?
+        </h2>
+        <p class="relative text-gray-400 text-sm leading-relaxed max-w-md mx-auto mb-7">
+          Cuéntanos qué proceso te quita más tiempo. Terminas con claridad sobre qué mejorar — lo contrates o no.
+        </p>
+        <a href="diagnostico.html"
+           class="relative inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white text-black text-sm font-medium rounded glow-effect hover:bg-gray-100 transition-colors">
+          Diagnóstico gratuito
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="components/loader.js"></script>
+
+</body>
+</html>

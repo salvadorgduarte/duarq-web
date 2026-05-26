@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Diagnóstico gratuito — duarq.co</title>
+  <meta name="description" content="Cuéntanos qué proceso te quita más tiempo. El diagnóstico es gratuito y sin compromiso." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            deepblack: '#000000',
+            surface:   '#0A0A0A',
+            bordergray:'#1F2937',
+            accent:    '#3B82F6',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    .bg-grid {
+      background-image:
+        linear-gradient(to right,  rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    .glow-effect {
+      box-shadow: 0 0 40px -10px rgba(59,130,246,0.35);
+    }
+
+    .text-accent-readable { color: #60a5fa; }
+
+    /* Input / select / textarea base */
+    .field {
+      width: 100%;
+      background: #0A0A0A;
+      border: 1px solid #1F2937;
+      border-radius: 6px;
+      padding: 12px 14px;
+      color: #e5e7eb;
+      font-size: 0.875rem;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .field::placeholder { color: #4b5563; }
+    .field:focus {
+      border-color: #3B82F6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+    }
+
+    /* Select arrow */
+    .select-wrap { position: relative; }
+    .select-wrap::after {
+      content: '';
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0; height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 5px solid #4b5563;
+      pointer-events: none;
+    }
+    select.field { padding-right: 36px; cursor: pointer; }
+    select.field option { background: #0A0A0A; color: #e5e7eb; }
+
+    /* Textarea no resize horizontal */
+    textarea.field { resize: vertical; min-height: 90px; }
+
+    /* Label */
+    .field-label {
+      display: block;
+      font-size: 0.75rem;
+      color: #9ca3af;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    /* Nav */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -2px; left: 0;
+      width: 0; height: 1px; background: #60a5fa;
+      transition: width 0.2s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    /* Card hover */
+    .card-hover { transition: border-color 0.2s ease, transform 0.2s ease; }
+    .card-hover:hover { border-color: #3B82F6; transform: translateY(-2px); }
+
+    /* Safe areas */
+    .safe-top    { padding-top: max(env(safe-area-inset-top), 0px); }
+    .safe-bottom { padding-bottom: max(env(safe-area-inset-bottom), 0px); }
+
+    /* Mobile menu */
+    #mobile-menu {
+      transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+    #mobile-menu.menu-hidden {
+      opacity: 0; pointer-events: none; transform: translateY(-6px);
+    }
+    #mobile-menu.menu-open {
+      opacity: 1; pointer-events: auto; transform: translateY(0);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #000; }
+    ::-webkit-scrollbar-thumb { background: #1F2937; border-radius: 2px; }
+
+    /* Fade up */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up  { animation: fadeUp 0.5s ease both; }
+    .delay-1  { animation-delay: 0.08s; }
+    .delay-2  { animation-delay: 0.18s; }
+    .delay-3  { animation-delay: 0.28s; }
+
+    /* Divider line */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: #374151;
+      font-size: 0.75rem;
+    }
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #1F2937;
+    }
+  </style>
+</head>
+
+<body class="bg-deepblack text-gray-300 font-sans antialiased selection:bg-accent selection:text-white">
+
+  <div id="nav-placeholder"></div>
+
+  <!-- ══════════════════════════════════════
+       HERO MÍNIMO
+  ══════════════════════════════════════ -->
+  <section class="relative pt-14 overflow-hidden">
+    <div class="absolute inset-0 bg-grid pointer-events-none"></div>
+    <div class="absolute inset-0 pointer-events-none"
+         style="background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(29,78,216,0.18) 0%, transparent 65%);">
+    </div>
+    <div class="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
+         style="background: linear-gradient(to bottom, transparent, #000000);"></div>
+
+    <div class="relative max-w-5xl mx-auto px-5 sm:px-8 pt-16 pb-12">
+      <div class="fade-up delay-1 inline-flex items-center gap-2 mb-6">
+        <span class="w-1.5 h-1.5 rounded-full bg-blue-400"
+              style="box-shadow: 0 0 8px 2px rgba(96,165,250,0.6);"></span>
+        <span class="text-xs text-accent-readable font-medium tracking-widest uppercase">Sin costo · Sin compromiso</span>
+      </div>
+      <h1 class="fade-up delay-2 text-3xl sm:text-4xl font-semibold text-white leading-tight tracking-tight mb-3 max-w-xl">
+        Cuéntanos qué proceso<br />te quita más tiempo.
+      </h1>
+      <p class="fade-up delay-3 text-sm text-gray-400 max-w-md leading-relaxed">
+        Terminas con claridad sobre qué mejorar — lo contrates o no.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       FORMULARIO + LLAMADA
+  ══════════════════════════════════════ -->
+  <section class="py-10 sm:py-14 border-t border-bordergray">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8">
+
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-16 items-start">
+
+        <!-- ── Formulario (col 3/5) ── -->
+        <div class="lg:col-span-3">
+
+          <p class="text-xs text-accent-readable font-medium tracking-widest uppercase mb-7">Formulario de diagnóstico</p>
+
+          <div class="space-y-5" id="diag-form">
+
+            <!-- Nombre -->
+            <div>
+              <label class="field-label" for="nombre">Nombre</label>
+              <input id="nombre" type="text" placeholder="Tu nombre" class="field" autocomplete="given-name" />
+            </div>
+
+            <!-- Empresa -->
+            <div>
+              <label class="field-label" for="empresa">Empresa o negocio</label>
+              <input id="empresa" type="text" placeholder="Nombre de tu negocio" class="field" autocomplete="organization" />
+            </div>
+
+            <!-- Personas -->
+            <div>
+              <label class="field-label" for="personas">¿Cuántas personas trabajan contigo?</label>
+              <div class="select-wrap">
+                <select id="personas" class="field">
+                  <option value="" disabled selected>Selecciona una opción</option>
+                  <option value="1-10">1 – 10 personas</option>
+                  <option value="11-20">11 – 20 personas</option>
+                  <option value="21-50">21 – 50 personas</option>
+                  <option value="50+">Más de 50</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Proceso -->
+            <div>
+              <label class="field-label" for="proceso">¿Qué proceso te quita más tiempo?</label>
+              <textarea id="proceso" placeholder="Descríbelo en una o dos líneas. No necesitas ser técnico." class="field"></textarea>
+            </div>
+
+            <!-- Botón WhatsApp -->
+            <button id="btn-wa"
+               class="w-full inline-flex items-center justify-center gap-2.5 px-6 py-3.5 bg-white text-black text-sm font-medium rounded glow-effect hover:bg-gray-100 transition-colors mt-1">
+              <!-- WhatsApp icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.857L.057 23.882a.75.75 0 00.921.921l6.025-1.476A11.953 11.953 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.711 9.711 0 01-4.964-1.363l-.355-.212-3.683.902.918-3.584-.232-.368A9.712 9.712 0 012.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/>
+              </svg>
+              Enviar por WhatsApp
+            </button>
+
+            <p class="text-xs text-gray-600 text-center">
+              Al enviar, se abrirá WhatsApp con tu información pre-llenada.
+            </p>
+
+          </div>
+        </div>
+
+        <!-- ── Columna derecha (col 2/5) ── -->
+        <div class="lg:col-span-2 flex flex-col gap-6">
+
+          <!-- Por qué funciona -->
+          <div class="bg-surface border border-bordergray rounded-lg p-6">
+            <p class="text-xs text-accent-readable font-medium tracking-widest uppercase mb-5">Qué pasa después</p>
+            <div class="space-y-5">
+              <div class="flex gap-3">
+                <span class="text-xs text-accent-readable font-medium mt-0.5 shrink-0">01</span>
+                <p class="text-sm text-gray-400 leading-relaxed">Recibimos tu mensaje y lo revisamos el mismo día.</p>
+              </div>
+              <div class="flex gap-3">
+                <span class="text-xs text-accent-readable font-medium mt-0.5 shrink-0">02</span>
+                <p class="text-sm text-gray-400 leading-relaxed">Te respondemos por WhatsApp con preguntas puntuales o directamente con una propuesta.</p>
+              </div>
+              <div class="flex gap-3">
+                <span class="text-xs text-accent-readable font-medium mt-0.5 shrink-0">03</span>
+                <p class="text-sm text-gray-400 leading-relaxed">Si el proceso aplica para una automatización, recibes una propuesta clara: qué, cuánto y cuándo.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Divider -->
+          <div class="divider">o si prefieres hablar primero</div>
+
+          <!-- Llamada -->
+          <div class="bg-surface border border-bordergray rounded-lg p-6 card-hover">
+            <p class="text-white text-sm font-medium mb-2">Agenda una llamada de 20 minutos</p>
+            <p class="text-gray-500 text-xs leading-relaxed mb-5">
+              Sin formulario. Platicamos directamente sobre tu negocio y lo que quieres mejorar.
+            </p>
+            <!-- Reemplazar href con URL real de Calendly cuando esté disponible -->
+            <a href="https://calendly.com/duarq" target="_blank" rel="noopener"
+               class="inline-flex items-center justify-center gap-2 w-full px-5 py-3 border border-bordergray bg-deepblack text-white text-sm rounded hover:border-gray-500 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              Agendar llamada
+            </a>
+            <p class="text-xs text-gray-600 text-center mt-3">Sin costo · Sin compromiso</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer-placeholder"></div>
+
+  <script>
+    // ── WhatsApp pre-fill ────────────────────
+    document.getElementById('btn-wa').addEventListener('click', () => {
+      const nombre   = document.getElementById('nombre').value.trim();
+      const empresa  = document.getElementById('empresa').value.trim();
+      const personas = document.getElementById('personas').value;
+      const proceso  = document.getElementById('proceso').value.trim();
+
+      // Validación mínima
+      if (!nombre || !empresa || !personas || !proceso) {
+        // Highlight vacíos
+        ['nombre','empresa','personas','proceso'].forEach(id => {
+          const el = document.getElementById(id);
+          if (!el.value.trim()) {
+            el.style.borderColor = '#ef4444';
+            el.addEventListener('input', () => el.style.borderColor = '', { once: true });
+            el.addEventListener('change', () => el.style.borderColor = '', { once: true });
+          }
+        });
+        return;
+      }
+
+      const personasLabel = {
+        '1-10':  '1 a 10 personas',
+        '11-20': '11 a 20 personas',
+        '21-50': '21 a 50 personas',
+        '50+':   'más de 50 personas'
+      }[personas] || personas;
+
+      const mensaje = `Hola Salvador, soy ${nombre} de ${empresa}. Somos ${personasLabel} y el proceso que más tiempo nos quita es: ${proceso}. Me interesa el diagnóstico gratuito.`;
+
+      const url = `https://wa.me/5213313659020?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, '_blank');
+    });
+  </script>
+
+  <script src="components/loader.js"></script>
+
+</body>
+</html>

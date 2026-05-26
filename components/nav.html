@@ -1,0 +1,49 @@
+<nav class="fixed top-0 left-0 right-0 z-50 border-b border-bordergray safe-top"
+     style="background: rgba(0,0,0,0.82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);">
+  <div class="max-w-5xl mx-auto px-5 sm:px-8">
+    <div class="flex items-center justify-between h-14">
+
+      <a href="index.html" class="text-white font-semibold text-sm tracking-tight">
+        duarq<span class="text-accent-readable">.</span>co
+      </a>
+
+      <!-- Desktop -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="como-funciona.html" data-nav-item="como-funciona"
+           class="nav-link text-xs text-gray-400 hover:text-white transition-colors">Cómo funciona</a>
+        <a href="casos.html" data-nav-item="casos"
+           class="nav-link text-xs text-gray-400 hover:text-white transition-colors">Casos</a>
+        <a href="nosotros.html" data-nav-item="nosotros"
+           class="nav-link text-xs text-gray-400 hover:text-white transition-colors">Nosotros</a>
+        <a href="diagnostico.html"
+           class="px-4 py-1.5 bg-white text-black text-xs font-medium rounded glow-effect hover:bg-gray-100 transition-colors">
+          Diagnóstico gratuito
+        </a>
+      </div>
+
+      <!-- Hamburger -->
+      <button id="menu-btn" class="md:hidden flex flex-col gap-1.5 p-1" aria-label="Menú">
+        <span class="w-5 h-px bg-gray-300 block" id="bar1"></span>
+        <span class="w-5 h-px bg-gray-300 block" id="bar2"></span>
+        <span class="w-3 h-px bg-gray-300 block transition-all" id="bar3"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile dropdown -->
+  <div id="mobile-menu" class="menu-hidden md:hidden border-t border-bordergray"
+       style="background: rgba(0,0,0,0.96); backdrop-filter: blur(14px);">
+    <div class="max-w-5xl mx-auto px-5 py-5 flex flex-col gap-4">
+      <a href="como-funciona.html" data-nav-item="como-funciona"
+         class="text-sm text-gray-300 hover:text-white transition-colors">Cómo funciona</a>
+      <a href="casos.html" data-nav-item="casos"
+         class="text-sm text-gray-300 hover:text-white transition-colors">Casos</a>
+      <a href="nosotros.html" data-nav-item="nosotros"
+         class="text-sm text-gray-300 hover:text-white transition-colors">Nosotros</a>
+      <a href="diagnostico.html"
+         class="text-center px-4 py-3 bg-white text-black text-sm font-medium rounded glow-effect">
+        Diagnóstico gratuito
+      </a>
+    </div>
+  </div>
+</nav>
